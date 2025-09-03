@@ -2,9 +2,7 @@
 
 1 hour a day until LED + camera streaming is working with decent enough exposure
 
-1. Create a GitHub 
 2. Add a change password feature
-3. Add a profile page
 4. flip login from username to email (keep email - make username unique)
 5. Make the website mobile friendly
 

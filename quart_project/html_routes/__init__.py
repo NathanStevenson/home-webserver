@@ -1,7 +1,9 @@
 from quart import Blueprint, render_template, render_template_string
-from quart_auth import current_user
+from quart_auth import login_required, login_user, logout_user, Unauthorized, AuthUser, current_user
+from ..db_interface import db_interface
+from ..db_interface.user_model import User
 
-bp = Blueprint('html_routes', __name__, url_prefix="/")
+bp = Blueprint('home_page', __name__, url_prefix="/")
 
 # Import all related api files
 
@@ -9,21 +11,25 @@ bp = Blueprint('html_routes', __name__, url_prefix="/")
 
 # All routes served under "/"
 
-# this is the default index route; template served depends on website type + plugins chose; move this to html_routes bp - bp can have same url_prefix if different names
+# this is the default index route; template served depends on website type + plugins chose; move this to home_page bp - bp can have same url_prefix if different names
 @bp.route("")
+@login_required
 async def index():
     tabs = ["Overview"]
-    if await current_user.is_authenticated:
-        control_tabs = ["Logout", "Dark Mode"]
-    else:
-        control_tabs = ["Login", "Dark Mode"]
-    return await render_template('index.html', backend="quart_project", frontend="jinja", database="postgresql", tabs=tabs, control_tabs=control_tabs)
+    control_tabs = ["Login", "Dark Mode"]
+
+    async with db_interface.create_session() as session:
+        logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
+
+    return await render_template('index.html', tabs=tabs, control_tabs=control_tabs, logged_in_user_info=logged_in_user_info)
 
 @bp.route("overview")
+@login_required
 async def overview():
     tabs = ["Overview"]
-    if await current_user.is_authenticated:
-        control_tabs = ["Logout", "Dark Mode"]
-    else:
-        control_tabs = ["Login", "Dark Mode"]
-    return await render_template('overview.html', backend="quart_project", frontend="jinja", database="postgresql", tabs=tabs, control_tabs=control_tabs)
+    control_tabs = ["Login", "Dark Mode"]
+
+    async with db_interface.create_session() as session:
+        logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
+
+    return await render_template('overview.html', tabs=tabs, control_tabs=control_tabs, logged_in_user_info=logged_in_user_info)

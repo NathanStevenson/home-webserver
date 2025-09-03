@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head_more %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+    <!-- Javascript -->
+    <script type="module" src="{{ url_for('static', filename='javascript/authentication.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="profile-card">
+    <!-- Default profile picture -->
+    <img src="{{ url_for('static', filename='images/default_profile.png') }}" alt="Profile Picture" class="profile-pic">
+
+    <!-- User details -->
+    <h2>{{ logged_in_user_info.username }}</h2>
+    <p>{{ logged_in_user_info.email }}</p>
+
+    <!-- Password reset form -->
+    <form id="reset-password">
+      <input type="password" name="password" placeholder="New Password" required>
+      <input type="password" name="password_verify" placeholder="Confirm Password" required>
+      <input type="hidden" name="username" value="{{ logged_in_user_info.username }}" required>
+      <input type="hidden" name="email" value="{{ logged_in_user_info.email }}" required>
+      <button type="submit">Reset Password</button>
+    </form>
+
+    <div class="footer">
+      <p>More profile features coming soon…</p>
+    </div>
+  </div>
+{% endblock %}

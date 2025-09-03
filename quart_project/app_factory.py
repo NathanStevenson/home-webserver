@@ -1,9 +1,10 @@
 import uvicorn
+import quart
 from quart import Quart, render_template
 from quart_schema import QuartSchema, validate_request, validate_response
 from quart_project.db_interface import db_interface
 from quart_project import html_routes
-from quart_auth import QuartAuth
+from quart_auth import QuartAuth, Unauthorized
 from quart_project.secrets.secrets import app_secret_key
 from quart_project import user_authentication
 
@@ -30,5 +31,12 @@ def create_app(webweaver_config=None):
     @app.before_serving
     async def before_serving():
         await db_interface.init_db()
+
+    # if you fail a login requirement instead of default 401 unauthorized serve this custom 
+    @app.errorhandler(Unauthorized)
+    async def custom_unauthorized_page(error):
+        tabs = ["Overview"]
+        control_tabs = ["Login", "Dark Mode"]
+        return await quart.render_template('unauthorized.html', tabs=tabs, control_tabs=control_tabs)
 
     return app

@@ -1,6 +1,6 @@
 /* Color Styling Variables */
 :root {
-    --bg-color: #f3f4f6;
+    --bg-color: linear-gradient(180deg,rgba(224, 167, 96, 1) 0%, rgba(140, 152, 212, 1) 80%);;
     --text-color: #111827;
     --form-bg: #ffffff;
     --input-bg: #ffffff;
@@ -13,7 +13,7 @@
 }
 /* change for dark mode */
 body.dark {
-    --bg-color: #111827;
+    --bg-color: linear-gradient(180deg,rgba(99, 211, 255, 1) 25%, rgba(230, 186, 255, 1) 100%);;
     --text-color: #f9fafb;
     --form-bg: #1f2937;
     --input-bg: #374151;
@@ -71,6 +71,11 @@ h2 {
 
 #image-logo {
     max-height: 7vh;
+}
+
+#default-profile {
+    border-radius: 50%;
+    border: 2px solid black;
 }
 
 #logo-container {

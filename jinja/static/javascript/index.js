@@ -27,8 +27,8 @@ export async function makeRequest(method = 'GET', endpoint, body=null) {
 function toggleDarkMode() {
     const body = document.getElementsByTagName('body')[0];
     const dark_mode_btn = document.getElementById('dark-mode-button');
-    if (body.className == "dark") { body.className = "light"; dark_mode_btn.innerHTML = '&#127774;' }
-    else { body.className = "dark"; dark_mode_btn.innerHTML = '&#127769;' }
+    if (body.className == "dark") { body.className = "light"; dark_mode_btn.innerHTML = '&#127769;' }
+    else { body.className = "dark"; dark_mode_btn.innerHTML = '&#127774;' }
 }
 
 // when the DOM loads execute these JS functions
