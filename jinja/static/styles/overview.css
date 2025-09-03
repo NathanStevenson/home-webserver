@@ -1,0 +1,6 @@
+
+iframe {
+    min-width: 100%;
+    min-height: calc(100vh - 90px); /* same as main tag */
+    border: none;
+} 

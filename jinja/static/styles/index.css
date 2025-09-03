@@ -1,0 +1,134 @@
+/* Color Styling Variables */
+:root {
+    --bg-color: #f3f4f6;
+    --text-color: #111827;
+    --form-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #d1d5db;
+    --input-focus: #3b82f6;
+    --divider-color: #e5e7eb;
+    --oauth-hover: #f9fafb;
+    --btn-primary: #3b82f6;
+    --btn-primary-hover: #2563eb;
+}
+/* change for dark mode */
+body.dark {
+    --bg-color: #111827;
+    --text-color: #f9fafb;
+    --form-bg: #1f2937;
+    --input-bg: #374151;
+    --input-border: #4b5563;
+    --input-focus: #60a5fa;
+    --divider-color: #374151;
+    --oauth-hover: #1f2937;
+    --btn-primary: #3b82f6;
+    --btn-primary-hover: #2563eb;
+  }
+
+/* Tags Styling */
+* {
+    box-sizing: border-box; /* border box means that padding + border included in width + height */
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    background: var(--bg-color);
+    min-height: 100vh;
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 90px); /* max height minus height of header */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+/* ID Styling */
+#overview-flexbox {
+    display: flex; 
+    column-gap: 10%;
+    justify-content: center;
+    width: 100vw;
+    flex-wrap: wrap;
+}
+
+#header{
+    display: flex; 
+    justify-content: space-between;
+    width: 100vw;
+    background-color: black;
+    height: 90px;
+}
+
+#image-logo {
+    max-height: 7vh;
+}
+
+#logo-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 5vw;
+}
+
+#tab-container {
+    display: flex;
+    align-items: center;
+}
+
+#control-tab-container {
+    display: flex;
+    align-items: center;
+    margin-right: 3vw;
+}
+
+#dark-mode-button {
+    cursor: pointer;
+    background: inherit;
+    border: none;
+    font-size: larger;
+    border-radius: 50%;
+    padding: 2vh 1vw;
+}
+
+#dark-mode-button:hover {
+    background-color: rgba(40, 40, 40, 10); 
+}
+
+/* Class Styling */
+.service-links {
+    border: 3px solid rgba(40, 40, 40, 10);
+    padding: 30px;
+    border-radius: 15px;
+    font-size: larger;
+    font-weight: bold;
+    flex: 0 0 calc(33.333% - 10%);
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.nav-bar-tab {
+    font-weight: bold;
+    min-width: fit-content;
+    padding: 2vh 1vw;
+    border-radius: 10px;
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-bar-tab:hover {
+    cursor: pointer;
+    background-color: rgba(40, 40, 40, 10); 
+    text-decoration: underline;
+}

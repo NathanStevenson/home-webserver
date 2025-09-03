@@ -1,0 +1,13 @@
+quart 
+quart-schema
+quart-db
+sqlalchemy[asyncpg]
+psycopg2-binary
+asyncio
+uvicorn
+asyncpg
+alembic
+quart-auth
+bcrypt
+pydantic
+pydantic[email]

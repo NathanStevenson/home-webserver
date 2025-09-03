@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHome</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/webweaver_logo.png') }}" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    <!-- Javascript -->
+    <script type="module" src="{{ url_for('static', filename='javascript/index.js') }}"></script>
+    <!-- Extra Content for sub-files -->
+    {% block head_more %}{% endblock %}
+</head>
+<body class="dark">
+    <header>
+        <div id="header">
+            <div id="tab-container">
+                <div id="logo-container">
+                    <img src="{{ url_for('static', filename='images/webweaver_logo.png') }}" alt="WebWeaver Logo" id="image-logo">
+                    <a class="nav-bar-tab" href="/">Home</a>
+                </div>
+                {% for tab in tabs %}
+                    <a class="nav-bar-tab" href="/{{ tab | lower | replace(' ', '_') }}">{{ tab }}</a>
+                {% endfor %}
+            </div>
+            {% if control_tabs != [] %}
+            <div id="control-tab-container">
+                {% for tab in control_tabs %}
+                    {% if tab == 'Dark Mode' %}
+                        <button id="dark-mode-button">&#127769;</button>
+                    {% else %}
+                        <a class="nav-bar-tab" href="/{{ tab | lower | replace(' ', '_') }}">{{ tab }}</a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
