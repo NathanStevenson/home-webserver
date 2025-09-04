@@ -2,20 +2,19 @@
 
 1 hour a day until LED + camera streaming is working with decent enough exposure
 
-2. Add a change password feature
-4. flip login from username to email (keep email - make username unique)
-5. Make the website mobile friendly
+4. Add a logout button within the profile page also add the dark mode button here 
+6. Add wrong credentials + not matching reset password checks 
 
-## Side Quests
-2. Once Chat limit resets (630) requery it in two separate chats: Rpi zero, LED 64x32, and button to toggle for LED project
-3. Another chat for RPi zero with camera materials + some socketing source code -> UDP/TCP/websockets streaming real time video back out onto the phone -> can eventually add an audio aspect so they can talk back
+--- should get thru start of calendar friday; saturday can get the stuff from microcenter on way home - order the non microcenter stuff on amazon
+
+1. Start working on Calendar with Chat code
+2. Start working on To-Do classes with chat code
 
 ### Services
 
 1. Home Streaming of the cameras (can select many once we have them)
 2. Sending each other messages on the LED screen
 3. Shared Calendar
-4. Shared Activity List
 5. Shared To-Dos tasks
 
 8. Ability to send alerts to each other and leave little messages (inbox on profile page shows recent msgs)

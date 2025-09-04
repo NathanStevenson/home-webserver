@@ -2,10 +2,9 @@ from pydantic import BaseModel, EmailStr
 
 class ResetPassword(BaseModel):
     username: str
-    email: EmailStr
     password: str
     password_verify: str
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    username: str
     password: str

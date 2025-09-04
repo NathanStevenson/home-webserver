@@ -34,7 +34,8 @@ body.dark {
 body {
     margin: 0;
     background: var(--bg-color);
-    min-height: 100vh;
+    /* vh - viewport height; dvh - viewport height based on whether browser tools open/closed; lvh - vh when closed; svh - vh when tools opened */
+    min-height: 100dvh;
     color: var(--text-color);
     transition: background 0.3s, color 0.3s;
 }
@@ -52,7 +53,7 @@ h2 {
     font-size: 1.5rem;
 }
 
-/* ID Styling */
+/* Home-Page styling (should separate out) */
 #overview-flexbox {
     display: flex; 
     column-gap: 10%;
@@ -61,6 +62,29 @@ h2 {
     flex-wrap: wrap;
 }
 
+.service-links {
+    /* control the border and spacing of service blocks */
+    border: 3px solid rgba(40, 40, 40, 10);
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* ensure there is a max of 3 services per line */
+    flex: 0 0 calc(33.333% - 10%);
+    /* ensure all the services have the same height and min width (otherwise would shrink based on service size looks weird) */
+    height: 100px;
+    min-width: 200px;
+    /* ensure text of all services is centered horizontally + vertically */
+    font-size: larger;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Header NAV Bar styling */
 #header{
     display: flex; 
     justify-content: space-between;
@@ -73,18 +97,14 @@ h2 {
     max-height: 7vh;
 }
 
-#default-profile {
-    border-radius: 50%;
-    border: 2px solid black;
-}
-
 #logo-container {
     display: flex;
     align-items: center;
     gap: 5px;
-    margin-left: 5vw;
+    margin-left: 20px;
 }
 
+/* Desktop Top Bar Header */
 #tab-container {
     display: flex;
     align-items: center;
@@ -109,19 +129,6 @@ h2 {
     background-color: rgba(40, 40, 40, 10); 
 }
 
-/* Class Styling */
-.service-links {
-    border: 3px solid rgba(40, 40, 40, 10);
-    padding: 30px;
-    border-radius: 15px;
-    font-size: larger;
-    font-weight: bold;
-    flex: 0 0 calc(33.333% - 10%);
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 .nav-bar-tab {
     font-weight: bold;
     min-width: fit-content;
@@ -136,4 +143,96 @@ h2 {
     cursor: pointer;
     background-color: rgba(40, 40, 40, 10); 
     text-decoration: underline;
+}
+
+/* Mobile Side Menu */
+.hamburger {
+    width: 30px;
+    height: 25px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 1001;
+    margin-left: 20px;
+}
+
+.hamburger span {
+    display: none;
+    height: 4px;
+    background: white;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+/* Sidebar menu (start hidden offscreen) - cannot be display none otherwise transition would not work */
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: #222;
+    color: white;
+    padding: 60px 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    transform: translateX(-100%); /* hide offscreen */
+    transition: transform 0.35s ease;
+    z-index: 1000;
+}
+
+.menu.active {
+    transform: translateX(0); /* slide in */
+}
+
+.menu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 999;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* On smaller screens hide desktop and activate mobiel search */
+/* Media tags should always be at bottom of CSS so they are not overridden */
+@media screen and (max-width: 768px) {
+    /* Hiding desktop nav menu options */
+    .nav-bar-tab {
+        display: none;
+    }
+
+    #dark-mode-button {
+        display: none;
+    }
+    /* showing mobile nav options */
+    .hamburger {
+        display: flex;
+    }
+
+    .hamburger span {
+        display: block;
+    }
+
+    /* on small screens adjust the min-width so that we can get two services per line */
+    .service-links {
+        min-width: 150px;
+    }
 }

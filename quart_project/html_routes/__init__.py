@@ -15,21 +15,15 @@ bp = Blueprint('home_page', __name__, url_prefix="/")
 @bp.route("")
 @login_required
 async def index():
-    tabs = ["Overview"]
-    control_tabs = ["Login", "Dark Mode"]
-
     async with db_interface.create_session() as session:
         logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
 
-    return await render_template('index.html', tabs=tabs, control_tabs=control_tabs, logged_in_user_info=logged_in_user_info)
+    return await render_template('index.html', logged_in_user_info=logged_in_user_info)
 
 @bp.route("overview")
 @login_required
 async def overview():
-    tabs = ["Overview"]
-    control_tabs = ["Login", "Dark Mode"]
-
     async with db_interface.create_session() as session:
         logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
 
-    return await render_template('overview.html', tabs=tabs, control_tabs=control_tabs, logged_in_user_info=logged_in_user_info)
+    return await render_template('overview.html', logged_in_user_info=logged_in_user_info)

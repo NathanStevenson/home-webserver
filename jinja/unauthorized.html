@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block head_more %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/unauthorized.css') }}">
+{% endblock %}
+
 {% block content %}
     <h1>User must be logged in to access these features</h1>
 {% endblock %}

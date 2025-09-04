@@ -16,7 +16,7 @@ class User(BaseModel):
     # mapped column is preferred over column in modern sql alchemy due to typing
     # mapped column you declare the type inside Mapped[] and it works better for type checking; cleaner code; designed for modern sql alchemy as compared to classic Column()
 
-    username: Mapped[str] = mapped_column()
+    username: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
     hashed_password: Mapped[str] = mapped_column() 
     # profile_image; posts; messages; items; payment method; misc items -- all should be optional (this will need to be rendered by jinja with fields based on config given)
@@ -25,4 +25,10 @@ class User(BaseModel):
     @classmethod
     async def get_user_by_email(cls, session: AsyncSession, email: str):
         result = await session.execute(select(cls).filter_by(email=email))
+        return result.scalars().first()
+    
+    # gets the user by their unique username; will return first found or None - never throws an Exception
+    @classmethod
+    async def get_user_by_username(cls, session: AsyncSession, username: str):
+        result = await session.execute(select(cls).filter_by(username=username))
         return result.scalars().first()

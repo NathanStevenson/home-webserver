@@ -31,6 +31,28 @@ function toggleDarkMode() {
     else { body.className = "dark"; dark_mode_btn.innerHTML = '&#127774;' }
 }
 
+const hamburger = document.getElementById('hamburger');
+const menu = document.getElementById('menu');
+const overlay = document.getElementById('overlay');
+
+// Toggle open / close
+hamburger.addEventListener('click', () => {
+    const hasActiveClass = menu.classList.contains('active');
+    if (hasActiveClass) {
+        menu.classList.remove('active');
+        overlay.classList.remove('active');
+    } else {
+        menu.classList.add('active');
+        overlay.classList.add('active');
+    }
+});
+
+// Close when clicking overlay
+overlay.addEventListener('click', () => {
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
 // when the DOM loads execute these JS functions
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("dark-mode-button").addEventListener('click', toggleDarkMode);

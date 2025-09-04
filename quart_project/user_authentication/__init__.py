@@ -15,12 +15,10 @@ bp = quart.Blueprint('authentication', __name__, url_prefix="/")
 @bp.get("profile")
 @login_required
 async def profile():
-    tabs = ["Overview"]
-    control_tabs = ["Login", "Dark Mode"]
     async with db_interface.create_session() as session:
         logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
 
-    return await quart.render_template('profile.html', tabs=tabs, control_tabs=control_tabs, logged_in_user_info=logged_in_user_info)
+    return await quart.render_template('profile.html', logged_in_user_info=logged_in_user_info)
 
 # receives POST request from the user asking to change their password
 @bp.post("reset_password")
@@ -28,7 +26,7 @@ async def profile():
 async def reset_password(data: schemas.ResetPassword):
     async with db_interface.create_session() as session:
         # check if the user exists
-        user = await User.get_user_by_email(session, data.email)
+        user = await User.get_user_by_username(session, data.username)
         # verify that passwords match
         if data.password == data.password_verify:
             print("Changing password for ", user.username)
@@ -38,14 +36,12 @@ async def reset_password(data: schemas.ResetPassword):
             return redirect(url_for('home_page.index'))
         else:
             print("Password do not match")
-            return redirect(url_for('authentication.reset_password'))
+            return redirect(url_for('authentication.profile'))
 
 # serve the login form
 @bp.get("login")
 async def login_form():
-    tabs = ["Overview"]
-    control_tabs = ["Login", "Dark Mode"]
-    return await quart.render_template('login.html', tabs=tabs, control_tabs=control_tabs)
+    return await quart.render_template('login.html')
 
 # receives POST request when the user signs up; checks that no other user with that email exists - hashes password and adds it into DB
 # validates the incoming request with pydantic; data will hold the validated json request params
@@ -54,14 +50,14 @@ async def login_form():
 async def process_login(data: schemas.UserLogin):
     async with db_interface.create_session() as session:
         # check if the user exists
-        user = await User.get_user_by_email(session, data.email)
+        user = await User.get_user_by_username(session, data.username)
         # verify that the password matches the hashed password
         if user and auth_utils.verify_password(data.password, user.hashed_password):
             login_user(AuthUser(str(user.id)))  # quart uses string as AuthUser - access ID via current_user.auth_id, current_user.is_authenticated bool for logged in or out user
-            print("Successful login for ", data.email)
+            print("Successful login for ", data.username)
             return redirect(url_for('home_page.index'))
         else:
-            print("Unsuccessful login for ", data.email)
+            print("Unsuccessful login for ", data.username)
             return {"error_msg": "Unsuccessful login!"}
         
 @bp.get("logout")

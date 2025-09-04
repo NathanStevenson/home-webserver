@@ -1,0 +1,13 @@
+
+
+h1 {
+    text-align: center;
+    width: 80%;
+}
+
+/* Media tags should always be at bottom of CSS so they are not overridden */
+@media screen and (max-width: 768px) {
+    h1 {
+        width: 60%;
+    }
+}
