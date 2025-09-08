@@ -11,7 +11,16 @@ from . import auth_utils
 bp = quart.Blueprint('authentication', __name__, url_prefix="/")
 
 
-# profile route for a user to see and edit basic information about themselves
+# reset_password route for a user to reset password form
+@bp.get("reset_password")
+@login_required
+async def reset_password():
+    async with db_interface.create_session() as session:
+        logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
+
+    return await quart.render_template('reset_password.html', logged_in_user_info=logged_in_user_info)
+
+# profile route for a user to edit all their info; reset password; toggle dark mode; etc
 @bp.get("profile")
 @login_required
 async def profile():
@@ -23,7 +32,7 @@ async def profile():
 # receives POST request from the user asking to change their password
 @bp.post("reset_password")
 @validate_request(schemas.ResetPassword)
-async def reset_password(data: schemas.ResetPassword):
+async def reset_password_form(data: schemas.ResetPassword):
     async with db_interface.create_session() as session:
         # check if the user exists
         user = await User.get_user_by_username(session, data.username)

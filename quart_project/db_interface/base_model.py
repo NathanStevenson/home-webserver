@@ -12,6 +12,7 @@ class BaseModel(Base):
     # all classes have an ID primary key which is auto incremented, and a time_updated field which will auto update when row is updated
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     time_updated = Column(DateTime(timezone=True))
+    time_created = Column(DateTime(timezone=True))
 
     # session needed for all below functions: session is similar to a connection
     # connection does the work of executing SQL Query with some added control features such as commit/rollback: raw SQL
@@ -34,6 +35,7 @@ class BaseModel(Base):
     async def add(cls, session: AsyncSession, obj):
         session.add(obj)
         obj.time_updated = datetime.now()
+        obj.time_created = datetime.now()
         # commit() will commit the session in progress; obj is still attached to the session and will be until the session is closed
         await session.commit()
         await session.refresh(obj)

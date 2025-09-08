@@ -3,29 +3,53 @@
 {% block head_more %}
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
-    <!-- Javascript -->
-    <script type="module" src="{{ url_for('static', filename='javascript/authentication.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="profile-card">
-    <!-- Default profile picture -->
-    <img src="{{ url_for('static', filename='images/default_profile.png') }}" alt="Profile Picture" class="profile-pic">
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-left">
+                <div class="profile-photo">
+                    <img src="{{ url_for('static', filename='images/user_profiles/' ~ logged_in_user_info.user_profile_path) }}" alt="Profile Photo">
+                    <div class="edit-icon">✎</div>
+                </div>
+                <h2>Profile Settings</h2>
+            </div>
+            <div class="profile-header-right">
+                <a href="/logout" class="btn-logout">Logout</a>
+            </div>
+        </div>
 
-    <!-- User details -->
-    <h2>{{ logged_in_user_info.username }}</h2>
-    <p>{{ logged_in_user_info.email }}</p>
+        <form style="display: flex; flex-direction: column">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" value="{{ logged_in_user_info.username }}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="{{ logged_in_user_info.email }}">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" value="{{ logged_in_user_info.phone_number }}">
+            </div>
+            <button type="button" class="btn-primary" style="align-self: center;">Apply Changes</button>
+        </form>
 
-    <!-- Password reset form -->
-    <form id="reset-password">
-      <input type="password" name="password" placeholder="New Password" required>
-      <input type="password" name="password_verify" placeholder="Confirm Password" required>
-      <input type="hidden" name="username" value="{{ logged_in_user_info.username }}" required>
-      <button type="submit">Reset Password</button>
-    </form>
+        <div class="settings-section">
+        <h3>General Settings</h3>
 
-    <div class="footer">
-      <p>More profile features coming soon…</p>
+        <div class="settings-item">
+            <span>Dark Mode</span>
+            <label class="toggle-switch">
+            <input type="checkbox" id="darkToggle">
+            <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="settings-item">
+            <span>Reset Password</span>
+            <a href="/reset_password" class="btn-primary">Reset Password</a>
+        </div>
     </div>
-  </div>
 {% endblock %}

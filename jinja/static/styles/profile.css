@@ -1,64 +1,149 @@
-.profile-card {
-    background: #fff;
-    margin-top: 50px;
+.container {
+    width: 40%;
+    margin: 2rem auto;
+    background: var(--form-bg);
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, color 0.3s;
 }
 
-.profile-pic {
+.container > * {
+    color: white;
+}
+
+/* Profile header styles */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-photo {
+    position: relative;
     width: 100px;
     height: 100px;
+    margin: 0 auto 1rem;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    margin-bottom: 1rem;
-    border: 3px solid #4CAF50;
     object-fit: cover;
 }
 
-h2 {
-    margin: 0.5rem 0;
-    font-size: 1.5rem;
-    color: #333;
-}
-
-p {
-    margin: 0.2rem 0;
-    color: #555;
-}
-
-form {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-input[type="password"] {
-    padding: 0.6rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-
-button {
-    padding: 0.6rem;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 8px;
+.edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #007bff;
     color: white;
-    font-size: 1rem;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 14px;
     cursor: pointer;
-    transition: background 0.3s;
 }
 
-button:hover {
-    background-color: #43a047;
-}
-
-.footer {
+.btn-logout {
+    width: 100%;
+    background-color: red;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
     margin-top: 1rem;
-    font-size: 0.9rem;
-    color: #777;
+    transition: background 0.3s;
+    text-decoration: none;
+    float: end;
+}
+
+.btn-logout:hover {
+    background-color: darkred;
+}
+
+/* Form Section Styling */
+.form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group > label {
+    font-weight: bold;
+}
+
+.btn-primary {
+    width: fit-content;
+    background-color: var(--btn-primary);
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+}
+
+/* Setting Section Styling */
+.settings-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #ddd;
+}
+
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+/* Toggle switch */
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 25px;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #ccc;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+input:checked + .slider {
+    background: #007bff;
+}
+
+input:checked + .slider::before {
+    transform: translateX(25px);
 }

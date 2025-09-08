@@ -24,7 +24,7 @@ class DatabaseInterface:
         await self.engine.dispose()
 
     # call when want to delete all the DB's data and restart (eventually will want migrations)
-    async def close_db(self):
+    async def clear_db(self):
         async with self.engine.begin() as connection:
             await connection.run_sync(Base.metadata.drop_all)
 
