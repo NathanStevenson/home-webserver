@@ -31,6 +31,8 @@ def create_app(webweaver_config=None):
     @app.before_serving
     async def before_serving():
         await db_interface.init_db()
+        # camera[id] -> { user[id] -> websocket queue }
+        app.camera_websocket_conns = {}
 
     # if you fail a login requirement instead of default 401 unauthorized serve this custom 
     @app.errorhandler(Unauthorized)

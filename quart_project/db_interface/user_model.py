@@ -1,7 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, delete, update, Column, DateTime
+from sqlalchemy import select
 from sqlalchemy.orm import Mapped, mapped_column
-import typing
 from .base_model import BaseModel
 
 class User(BaseModel):

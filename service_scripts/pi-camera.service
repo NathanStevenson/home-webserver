@@ -1,0 +1,15 @@
+[Unit]
+Description=Pi Camera Streaming Client
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nathan
+WorkingDirectory=/home/nathan/pi-camera-streaming
+ExecStart=/home/nathan/pi-camera-streaming/venv/bin/python /home/nathan/pi-camera-streaming/py_camera_code.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

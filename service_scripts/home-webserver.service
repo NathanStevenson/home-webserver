@@ -1,0 +1,27 @@
+[Unit]
+Description=Home Webserver
+After=network.target tailscaled.service
+Requires=tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nathan
+WorkingDirectory=/home/nathan/home-webserver
+# allow env to have access to bash system and python venv
+Environment="PATH=/home/nathan/home-webserver/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# Start the python webserver and expose to internet via tailscale
+ExecStart=/bin/bash -c ' \
+    echo "Activating venv..." \
+    source /home/nathan/home-webserver/venv/bin/activate; \
+    tailscale funnel 8000 & \
+    /home/nathan/home-webserver/venv/bin/python3 /home/nathan/home-webserver/run_server.py'
+
+# Kill both processes when service stopped
+KillMode=control-group
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
