@@ -1,43 +1,55 @@
 import asyncio
-import io
-import signal
 from typing import Optional
 
 from quart import Quart, request, jsonify
 import websockets
-import picamera
+from picamera2 import Picamera2
+from picamera2.encoders import H264Encoder
+import cv2
 
 app = Quart(__name__)
 
-# This will all be read in from a custom python file which will not be committed to the repo
 # ======== CONFIG (unique per Pi) ========
-CAMERA_ID = 1
-CENTRAL_WS = "ws://192.168.8.21:8080/ws/ingest"  # central server base
-INGEST_TOKEN = "replace-with-a-strong-secret"
-FRAMERATE = 24
-RESOLUTION = (1920, 1080)               # 1080p
+CAMERA_ID = 1               # change per device
+CENTRAL_WS = "ws://192.168.8.21:8000/stream/ws/ingest"  # central server base
+FRAMERATE = 40
 # =======================================
 
 stream_task: Optional[asyncio.Task] = None
 
-async def camera_streamer(camera_id: id):
-    uri = f"{CENTRAL_WS}/{camera_id}?token={INGEST_TOKEN}"
-    # Reconnect loop (in case central restarts)
-    while True:
-        try:
-            async with websockets.connect(uri, max_size=None) as ws:
-                with picamera.PiCamera(resolution=RESOLUTION, framerate=FRAMERATE) as camera:
-                    stream = io.BytesIO()
-                    for _ in camera.capture_continuous(stream, format="jpeg", use_video_port=True):
-                        await ws.send(stream.getvalue())
-                        stream.seek(0)
-                        stream.truncate()
-        except asyncio.CancelledError:
-            # graceful shutdown
-            break
-        except Exception:
-            # brief backoff before retry
-            await asyncio.sleep(1.0)
+async def camera_streamer(camera_id: str):
+    """Continuously capture JPEGs with Picamera2 and send over WebSocket."""
+    uri = f"{CENTRAL_WS}/{camera_id}"
+
+    picam2 = Picamera2()
+    config = picam2.create_video_configuration(
+        main={"size": (640, 480), "format": "RGB888"} # trying to mess with the res by making it lower to see if less choppy next play with framerate; if neither work then need to stream over TCP/UDP then websocket not websocket to websocket 
+    )
+    picam2.configure(config)
+    encoder = H264Encoder(1000000)
+    picam2.encoders = encoder
+    picam2.start()
+
+    try:
+        while True:
+            try:
+                async with websockets.connect(uri, max_size=None) as ws:
+                    while True:
+                        # Capture JPEG frame
+                        frame = picam2.capture_array("main")
+                        # Encode as JPEG in-memory and send the buffer byutes through the socket
+                        ret, buffer = cv2.imencode(".jpg", frame)
+                        await ws.send(buffer.tobytes())
+
+                        await asyncio.sleep(1 / FRAMERATE)
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                print(f"[WARN] Connection failed: {e}, retrying in 2s...")
+                await asyncio.sleep(2)
+    finally:
+        picam2.stop()
+        picam2.close()
 
 @app.route("/on")
 async def turn_on():

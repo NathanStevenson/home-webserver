@@ -3,8 +3,13 @@
 {% block head_more %}
     <!-- Javascript -->
     <script type="module" src="{{ url_for('static', filename='javascript/video_streaming.js') }}"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/stream_video.css') }}">
 {% endblock %}
 
 {% block content %}
-    <img id="video" alt="camera feed" style="width: 80vw; height: 80vw;" />
+<div>
+    <h2 id="cam-title">Camera ID 1: Living Room</h2>
+    <img id="video" alt="camera feed" />
+</div>
 {% endblock %}

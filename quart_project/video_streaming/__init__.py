@@ -2,17 +2,25 @@ import quart
 import requests
 import asyncio
 import functools
-from quart import redirect, url_for, request, websocket, current_app
-from quart_schema import validate_request
-from quart_auth import login_required, login_user, logout_user, AuthUser, current_user
+from quart import request, websocket, current_app
+from quart_auth import login_required, current_user
 
 from ..db_interface.camera_model import Camera
 from ..db_interface.user_model import User
 from ..db_interface import db_interface
-from . import schemas
-from . import auth_utils
 
 bp = quart.Blueprint('video_streaming', __name__, url_prefix="/stream")
+
+# HTML route which serves the HTML + JS + CSS used to connect to pi streaming client
+@bp.get("video")
+@login_required
+async def stream_video():
+    async with db_interface.create_session() as session:
+        logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
+
+    return await quart.render_template('stream_video.html', logged_in_user_info=logged_in_user_info)
+
+
 
 # Small helper to run requests in a thread so Quart's loop stays unblocked
 def _requests_get(url: str, timeout: float = 3.0):
@@ -22,18 +30,16 @@ async def http_get(url: str, timeout: float = 3.0):
     loop = asyncio.get_running_loop()
     return await loop.run_in_executor(None, functools.partial(_requests_get, url, timeout))
 
-# Optional: simple auth check for ingest (e.g., token query)
-def verify_ingest(request_args) -> bool:
-    # Example: token=shared-secret (replace with something real)
-    token = request_args.get("token")
-    return token == "replace-with-a-strong-secret"
-
 # ---------- WebSocket: Pi -> Central (ingest) ----------
+
+# white listed pi-camera IPs
+white_listed_ips = ["192.168.8.22"]
 
 @bp.websocket("/ws/ingest/<int:camera_id>")
 async def ws_ingest(camera_id: int):
     # Want to ensure only verified pi camera devices are streaming here
-    if not verify_ingest(request.args):
+    client = websocket.remote_addr
+    if client not in white_listed_ips:
         await websocket.close(1008)  # policy violation
         return
 
@@ -88,32 +94,23 @@ async def ws_view(camera_id: int):
                 return
             else:
                 print(f"Connection Request to Camera {camera_id} by User {user_id}")
-                # add the queue and the user to the specific cameras IDs dictionary
-                users_attached = current_app.camera_websocket_conns[camera_id]
-                users_attached[user_id] = queue
+                # add the queue and the user to the specific cameras IDs dictionary - if not camera ID then return an empty dict
+                current_app.camera_websocket_conns[camera_id] = {}
+                current_app.camera_websocket_conns[camera_id][user_id] = queue
                 # if first user must submit req to pi to start streaming - otherwise streaming has started and by adding the queue to dict you will subscribe to it
-                if len(users_attached) == 1:
+                if len(current_app.camera_websocket_conns[camera_id]) == 1:
                     await begin_video_streaming(camera_id)
 
         # Pull binary data being shoved into asyncio queue and send it out to the end user client
         async def sending():
-            try:
-                while True:
-                    frame = await queue.get()
-                    await websocket.send(frame)
-            except asyncio.CancelledError:
-                print(f"Unsubscribing user {user_id} from Camera {camera_id} in sending()")
-                await unsubscribe_user_to_camera(user_id, camera_id)
-            except Exception:
-                pass
+            while True:
+                frame = await queue.get()
+                await websocket.send(frame)
 
         async def receiving():
-            try:
-                while True:
-                    data = await websocket.receive()
-            except asyncio.CancelledError:
-                print(f"Unsubscribing user {user_id} from Camera {camera_id} in receiving()")
-                await unsubscribe_user_to_camera(user_id, camera_id)
+            while True:
+                data = await websocket.receive()
+            
 
         producer = asyncio.create_task(sending())
         consumer = asyncio.create_task(receiving())
@@ -139,16 +136,15 @@ async def begin_video_streaming(camera_id):
 async def unsubscribe_user_to_camera(user_id, camera_id):
     try:
         # get the current users attached to the camera
-        users_attached = current_app.camera_websocket_conns[camera_id]
-        del users_attached[user_id]
-        print(f"Unsubscribed user {user_id} from camera {camera_id}. Currently {len(users_attached)} users remaining")
+        del current_app.camera_websocket_conns[camera_id][user_id]
+        print(f"Unsubscribed user {user_id} from camera {camera_id}. Currently {len(current_app.camera_websocket_conns[camera_id])} users remaining")
 
         # if as a result no users are attached then alert client pi to stop streaming
-        if len(users_attached) == 0:
+        if len(current_app.camera_websocket_conns[camera_id]) == 0:
             print(f"Requesting to stop video streams for camera {camera_id}")
             async with db_interface.create_session() as session:
                 camera = await Camera.get_by_id(session, camera_id)
                 await http_get(f"http://{camera.ip_address}:{camera.port}/off")
 
     except Exception as e:
-        print("Exception when starting video stream", e)
+        print("Exception when stopping video stream", e)

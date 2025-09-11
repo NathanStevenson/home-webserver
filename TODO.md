@@ -1,23 +1,20 @@
 # Home Server
 
-1 hour a day until LED + camera streaming is working with decent enough exposure
-
+4. Add different colored logging and try and find a way to silence the DB logs
 4. Hook up the profile page form; make it look good from light/dark mode and on mobile 
-6. Add wrong credentials output when logging in with non exisiting user
+5. Add wrong credentials output when logging in with non exisiting user - Thurs
 
---- should get thru start of calendar friday; saturday can get the stuff from microcenter on way home - order the non microcenter stuff on amazon
+------
 
-1. Start working on Calendar with Chat code
-2. Start working on To-Do classes with chat code
+1. Start working on Calendar with Chat code - Fri
+2. Start working on To-Do classes with chat code - Sat
 
 ### Services
 
-1. Home Streaming of the cameras (can select many once we have them)
-2. Sending each other messages on the LED screen
+2. Sending each other messages on the LED screen - Sun
 
 8. Ability to send alerts to each other and leave little messages (inbox on profile page shows recent msgs)
 9. Other custom smart home capabilities once they are ready (lights, ac, etc)
-
 
 
 

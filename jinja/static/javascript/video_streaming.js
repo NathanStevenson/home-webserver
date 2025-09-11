@@ -1,6 +1,6 @@
 
 const imgEl = document.getElementById('video');
-const ws = new WebSocket(`/ws/view/1`); // can dynamically switch this id to see other cameras
+const ws = new WebSocket(`/stream/ws/view/1`); // can dynamically switch this id to see other cameras
 ws.binaryType = "arraybuffer";
 
 ws.onopen = () => { statusEl.textContent = "connected"; };

@@ -7,15 +7,13 @@ class Camera(BaseModel):
     __tablename__ = "camera"
 
      # default constructor (email, password, username)
-    def __init__(self, location, ip_address, port="2121", currently_streaming=False):
+    def __init__(self, location, ip_address, port="8080"):
         self.location = location
-        self.currently_streaming = currently_streaming
         self.ip_address = ip_address
         self.port = port
     
     # All of the cameras needed specific attributes
     location: Mapped[str] = mapped_column()
-    currently_streaming: Mapped[bool] = mapped_column()
     ip_address: Mapped[str] = mapped_column() 
     port: Mapped[str] = mapped_column() 
 

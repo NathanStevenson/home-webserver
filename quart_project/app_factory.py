@@ -7,6 +7,7 @@ from quart_project import html_routes
 from quart_auth import QuartAuth, Unauthorized
 from quart_project.secrets.secrets import app_secret_key
 from quart_project import user_authentication
+from quart_project import video_streaming
 
 # returns a fully configured Quart application
 def create_app(webweaver_config=None):
@@ -22,6 +23,7 @@ def create_app(webweaver_config=None):
     # registers all of your top level routes / (HMTL routes), /api (JSON API routes)
     app.register_blueprint(html_routes.bp)
     app.register_blueprint(user_authentication.bp)
+    app.register_blueprint(video_streaming.bp)
 
     # this config file is used by WebWeaver to ensure your web app does exactly what you specified
     if webweaver_config:

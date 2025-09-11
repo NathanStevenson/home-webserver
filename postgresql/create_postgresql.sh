@@ -6,9 +6,9 @@ sudo apt update && sudo apt install postgresql postgresql-contrib -y
 # remove hostname and port for 1.0 -- can add a more in depth script if need to spin up many postgres instances and specify whether
 # The main config files which we can edit automatically are /etc/postgresql/<int>/main/<postgresl.conf / pg_hba.conf>
 
-DB_USER=nathan
-DB_PASSWORD=13579Oliver!
-DB_NAME=homewebserver
+DB_USER=user
+DB_PASSWORD=pwd
+DB_NAME=db_name
 
 # postgresql creating a new db requires sudo permissions - we will send the file over to them and just have the end user run it
 systemctl start postgresql
