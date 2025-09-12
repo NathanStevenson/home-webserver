@@ -1,8 +1,6 @@
 # Home Server
 
 4. Add different colored logging and try and find a way to silence the DB logs
-4. Hook up the profile page form; make it look good from light/dark mode and on mobile 
-5. Add wrong credentials output when logging in with non exisiting user - Thurs
 
 ------
 
@@ -16,6 +14,12 @@
 8. Ability to send alerts to each other and leave little messages (inbox on profile page shows recent msgs)
 9. Other custom smart home capabilities once they are ready (lights, ac, etc)
 
+
+-- Video Streaming - keep doing this until one works
+1. Degrade to 15 FPS - this is serviceable - minimal delay not highest quality camera - try higher framerate + res once on Wireguard
+2. Wireguard
+3. Wireguard + MediaMTX
+4. AWS + MediaMTX
 
 
 

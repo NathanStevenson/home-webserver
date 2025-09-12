@@ -36,3 +36,9 @@ class User(BaseModel):
     async def get_user_by_username(cls, session: AsyncSession, username: str):
         result = await session.execute(select(cls).filter_by(username=username))
         return result.scalars().first()
+
+    # gets the user by their unique phone number; will return first found or None - never throws an Exception
+    @classmethod
+    async def get_user_by_phone_number(cls, session: AsyncSession, phone_number: str):
+        result = await session.execute(select(cls).filter_by(phone_number=phone_number))
+        return result.scalars().first()

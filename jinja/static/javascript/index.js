@@ -24,13 +24,6 @@ export async function makeRequest(method = 'GET', endpoint, body=null) {
     }
 }
 
-function toggleDarkMode() {
-    const body = document.getElementsByTagName('body')[0];
-    const dark_mode_btn = document.getElementById('dark-mode-button');
-    if (body.className == "dark") { body.className = "light"; dark_mode_btn.innerHTML = '&#127769;' }
-    else { body.className = "dark"; dark_mode_btn.innerHTML = '&#127774;' }
-}
-
 const hamburger = document.getElementById('hamburger');
 const menu = document.getElementById('menu');
 const overlay = document.getElementById('overlay');
@@ -53,7 +46,14 @@ overlay.addEventListener('click', () => {
     overlay.classList.remove('active');
 });
 
-// when the DOM loads execute these JS functions
+// when the DOM loads - read the dark/light mode cookie to see how to display
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("dark-mode-button").addEventListener('click', toggleDarkMode);
+    const body = document.getElementsByTagName('body')[0];
+    const theme = localStorage.getItem('theme');
+    if (theme == "dark") { 
+        body.className = "dark";
+    }
+    else {
+        body.className = "light";
+    }
 });

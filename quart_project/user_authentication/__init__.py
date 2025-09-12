@@ -31,6 +31,7 @@ async def profile():
 
 # receives POST request from the user asking to change their password
 @bp.post("reset_password")
+@login_required
 @validate_request(schemas.ResetPassword)
 async def reset_password_form(data: schemas.ResetPassword):
     async with db_interface.create_session() as session:
@@ -46,6 +47,29 @@ async def reset_password_form(data: schemas.ResetPassword):
         else:
             print("Password do not match")
             return redirect(url_for('authentication.profile'))
+
+# receives POST request from the user asking to change their information
+@bp.post("apply_changes")
+@login_required
+@validate_request(schemas.ApplyChanges)
+async def apply_changes(data: schemas.ApplyChanges):
+    async with db_interface.create_session() as session:
+        # check if the user exists
+        logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
+        # verify that all fields changed are unique
+        if await User.get_user_by_email(session, data.email) is not None:
+            return {"error": f"Email {data.email} already exists"}
+        if await User.get_user_by_username(session, data.username) is not None:
+            return {"error": f"Username {data.username} already exists"}
+        if await User.get_user_by_phone_number(session, data.phone_number) is not None:
+            return {"error": f"Phone Number {data.phone_number} already exists"}
+        
+        # if makes it here then a valid change
+        logged_in_user_info.phone_number = data.phone_number
+        logged_in_user_info.email = data.email
+        logged_in_user_info.username = data.username
+        await User.edit(session, logged_in_user_info)
+        return redirect(url_for('authentication.profile'))
 
 # serve the login form
 @bp.get("login")
@@ -67,7 +91,7 @@ async def process_login(data: schemas.UserLogin):
             return redirect(url_for('home_page.index'))
         else:
             print("Unsuccessful login for ", data.username)
-            return {"error_msg": "Unsuccessful login!"}
+            return {"error": "Invalid Credentials"}
         
 @bp.get("logout")
 async def process_logout():

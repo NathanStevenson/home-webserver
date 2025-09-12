@@ -9,7 +9,7 @@
 }
 
 .container > * {
-    color: white;
+    color: var(--text-color);
 }
 
 /* Profile header styles */
@@ -146,4 +146,11 @@ input:checked + .slider {
 
 input:checked + .slider::before {
     transform: translateX(25px);
+}
+
+/* Mobile compatibility */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
 }

@@ -8,3 +8,8 @@ class ResetPassword(BaseModel):
 class UserLogin(BaseModel):
     username: str
     password: str
+
+class ApplyChanges(BaseModel):
+    username: str
+    email: EmailStr
+    phone_number: str

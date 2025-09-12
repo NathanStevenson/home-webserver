@@ -33,7 +33,6 @@
                 <a class="nav-bar-tab" href="/overview">Overview</a>
             </div>
             <div id="control-tab-container">
-                <button id="dark-mode-button">&#127774;</button>
                 {% if current_user.is_authenticated %}
                     <a class="nav-bar-tab" href="/profile">Welcome, {{ logged_in_user_info.username }}</a>
                 {% else %}
