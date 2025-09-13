@@ -1,4 +1,5 @@
 import asyncio
+import uvicorn
 from typing import Optional
 
 from quart import Quart, request, jsonify
@@ -76,4 +77,4 @@ async def turn_off():
 
 if __name__ == "__main__":
     # Run the tiny control server that central will call
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    uvicorn.run("app", host="0.0.0.0", port=8000, reload=True, timeout_graceful_shutdown=3)

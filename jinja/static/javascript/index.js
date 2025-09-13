@@ -23,6 +23,27 @@ export async function makeRequest(method = 'GET', endpoint, body=null) {
         console.error(`Exception on server:`, err);
     }
 }
+ // converts a form to JSON and makes a POST request - return response 
+export async function onFormSubmit(event, endpoint) {
+    // on form submission prevent normal form action; extract the form arguments as json
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    // get all children checkbox elements in the form -- if not there then set the checkbox name to false; else set to false
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        if (!formData.has(checkbox.name)) { formData.append(checkbox.name, false); } 
+    });
+
+    const args = Object.fromEntries(formData.entries());
+    // replace all the on with true (checkboxes default to on need to do this with every checkbox we have in a form) - if need to add to below create a sep function to isolate it all out call like format_checkboxes or smth
+    if (args.wrapText == 'on') { args.wrapText = true; }
+    if (args.wrapText == 'false') { args.wrapText = false; }
+
+    // by default fetch follows redirect internally and will make the req but does not update address bar unless specify window.location.href
+    const response = await makeRequest("POST", endpoint, args);
+    return response;
+}
 
 const hamburger = document.getElementById('hamburger');
 const menu = document.getElementById('menu');

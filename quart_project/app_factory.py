@@ -1,13 +1,13 @@
-import uvicorn
 import quart
-from quart import Quart, render_template
-from quart_schema import QuartSchema, validate_request, validate_response
+from quart import Quart
+from quart_schema import QuartSchema
 from quart_project.db_interface import db_interface
 from quart_project import html_routes
 from quart_auth import QuartAuth, Unauthorized
 from quart_project.secrets.secrets import app_secret_key
 from quart_project import user_authentication
 from quart_project import video_streaming
+from quart_project import updating_led
 
 # returns a fully configured Quart application
 def create_app(webweaver_config=None):
@@ -24,6 +24,7 @@ def create_app(webweaver_config=None):
     app.register_blueprint(html_routes.bp)
     app.register_blueprint(user_authentication.bp)
     app.register_blueprint(video_streaming.bp)
+    app.register_blueprint(updating_led.bp)
 
     # this config file is used by WebWeaver to ensure your web app does exactly what you specified
     if webweaver_config:

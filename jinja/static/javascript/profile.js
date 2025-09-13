@@ -1,4 +1,4 @@
-import { makeRequest } from './index.js';
+import { onFormSubmit } from './index.js';
 
 // toggle between light and dark mode when clicked
 function toggleDarkMode() {
@@ -11,18 +11,6 @@ function toggleDarkMode() {
         body.className = "dark"; 
         localStorage.setItem('theme', 'dark');
     }
-}
-
-// converts a form to JSON and makes a POST request - return response if there is one
-async function onFormSubmit(event, endpoint) {
-    // on form submission prevent normal form action; extract the form arguments as json
-    event.preventDefault();
-    const form = event.target;
-    const formData = new FormData(form);
-    const args = Object.fromEntries(formData.entries());
-    // by default fetch follows redirect internally and will make the req but does not update address bar unless specify window.location.href
-    const response = await makeRequest("POST", endpoint, args);
-    return response;
 }
 
 // submits the login form request

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block head_more %}
+    <!-- Pass through Jinja Data -->
+    <script>
+        var all_pi_info = {{ all_pi_info | tojson }};
+    </script>
+    <!-- Javascript -->
+    <script type="module" src="{{ url_for('static', filename='javascript/update_message.js') }}"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/update_message.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Update LED Message</h2>
+
+        <form style="display: flex; flex-direction: column" id="update-led-message-form">
+            <div class="form-group">
+                <label for="pi_name">Select Device</label>
+                <select id="pi_name" name="pi_name">
+                    {% for pi_led in all_pi_info %}
+                        <option value="{{ pi_led.name }}">{{ pi_led.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <input type="text" id="message" name="message">
+            </div>
+            
+            <div class="form-group">
+                <label for="color">Color</label>
+                <input type="color" id="color" name="color">
+            </div>
+
+            <div class="enable-wrap">
+                <span>Enable Text Wrap</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="wrapText" name="wrapText">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <button type="submit" class="btn-primary" style="align-self: center;">Apply Changes</button>
+        </form>
+    </div>
+{% endblock %}

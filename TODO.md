@@ -1,45 +1,36 @@
 # Home Server
 
-4. Add different colored logging and try and find a way to silence the DB logs
+## LED Screen
+- mainly done need to get one quart schema error fixed on remote pi then good 
 
-------
+## Calendar
+- Get chat to design a calendar where each day can be clicked on to add new things to the db shows up on the date
+- Need to add a calendar events into the db (date, who reported, description) 
+- Add different colored logging and try and find a way to silence the DB logs
 
-1. Start working on Calendar with Chat code - Fri
-2. Start working on To-Do classes with chat code - Sat
-
-### Services
-
-2. Sending each other messages on the LED screen - Sun
-
-8. Ability to send alerts to each other and leave little messages (inbox on profile page shows recent msgs)
-9. Other custom smart home capabilities once they are ready (lights, ac, etc)
+## To-Do Classes
+- simple to do list so we can post errands back and forth and have each other see them
+- have chat help design the frontend code
+- will need to add a ToDo class table into the DB
 
 
--- Video Streaming - keep doing this until one works
+
+## Perfecting Video Streaming
 1. Degrade to 15 FPS - this is serviceable - minimal delay not highest quality camera - try higher framerate + res once on Wireguard
 2. Wireguard
 3. Wireguard + MediaMTX
 4. AWS + MediaMTX
 
-
-
-
-
-
-- RPiZero 2W (3x) - $60
-- MicroSD Card 32GB (3x) - $20
-- Power Supplies (3x)
-- Raspberry Pi Camera Module v2 + Camera Ribbon (1x) - $35
-- 64x32 RGB LED Matrix (2x) - $90
-- RGB Matrix Bonnet (2x) - $30
-- Push Buttons (2x) - $5
-
 - USB Microphone (small) - $10
 
 LED Cost:
-- Rpi 15, MicroSD 4, LED 29, LED Bonnet 23, Power 10: $81
+- Rpi Zero W 15, MicroSD 4, LED 29, LED Bonnet 18, Power 19, GPIO Pin hammer In 6: $91
 
 Camera Cost:
-- Rpi 15, MicroSD 4, Camera 15, Power 12: $46
+- Rpi Zero 2 W (way faster) 24, MicroSD 4, Camera 15, Camera Ribbon Adapter 6, Power 12: $61
 
-Total all 3: $208, $10 on book, $50 on dinner
+- Future project ALWAYS get Rpi Zero 2WH with the GPIO pins on the board $28 on amazon - find cheaper at actual hardware sites (digikey, vilros)
+- Good speed and comes with everything needed out of the box
+
+Total all 3: $243, $10 on book, $50 on dinner
+~$300; prolly 30 hours of work 

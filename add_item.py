@@ -6,6 +6,7 @@ import sys
 from quart_project.db_interface import db_interface
 from quart_project.db_interface.user_model import User
 from quart_project.db_interface.camera_model import Camera
+from quart_project.db_interface.led_model import LED_Device
 from quart_project.user_authentication import auth_utils
 
 # Will add a new username, email, and password each time this script is run into the DB
@@ -29,10 +30,29 @@ async def process_add_camera(location, ip_address):
         new_camera = Camera(location=location, ip_address=ip_address)
         await Camera.add(session, new_camera)
 
-# add username with CLP (email, username, password)
-# EXAMPLE:
-# ./venv/bin/python3 add_user.py <email> <username> <pwd> --> this command will add the new user with this email to the db
-# ./venv/bin/python3 add_user.py <location> <ip> --> this command will add the new camera to the db
+# Will add a new camera into the DB
+async def process_add_led(name, ip_address):
+    async with db_interface.create_session() as session:
+        await db_interface.init_db()
+        new_led = LED_Device(name=name, ip_address=ip_address)
+        await LED_Device.add(session, new_led)
+
+
+# USER:
+# ./venv/bin/python3 add_item.py user <email> <username> <pwd>      --> adds new user to the db
+#
+# CAMERA:
+# ./venv/bin/python3 add_item.py camera <location> <ip>             --> adds new camera to the db
+#
+# LED:
+# ./venv/bin/python3 add_item.py led <name> <ip>                    --> adds new led device to the db
+
 if __name__ == "__main__":
-    asyncio.run(process_add_user(sys.argv[1], sys.argv[2], sys.argv[3]))
-    # asyncio.run(process_add_camera(sys.argv[1], sys.argv[2]))
+    if sys.argv[1] == 'user':
+        asyncio.run(process_add_user(sys.argv[2], sys.argv[3], sys.argv[4]))
+    
+    if sys.argv[1] == 'camera':
+        asyncio.run(process_add_camera(sys.argv[2], sys.argv[3]))
+    
+    if sys.argv[1] == 'led':
+        asyncio.run(process_add_led(sys.argv[2], sys.argv[3]))

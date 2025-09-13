@@ -1,0 +1,8 @@
+pillow
+quart
+asyncio
+uvicorn
+pydantic
+quart_schema
+requests
+json

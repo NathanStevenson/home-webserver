@@ -14,7 +14,7 @@
 /* Media tags should always be at bottom of CSS so they are not overridden */
 @media screen and (max-width: 768px) {
     #video {
-        width: 300px;
-        height: 400px;
+        width: 350px;
+        height: 350px;
     }
 }

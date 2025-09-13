@@ -1,0 +1,112 @@
+.container {
+    width: 30%;
+    margin: 2rem auto;
+    background: var(--form-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, color 0.3s;
+}
+
+.container > * {
+    color: var(--text-color);
+}
+
+/* Form Section Styling */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #444;
+}
+
+select, input[type="text"] {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    transition: border 0.2s ease;
+}
+
+select:focus, input[type="text"]:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+.btn-primary {
+    width: fit-content;
+    background-color: var(--btn-primary);
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+}
+
+.enable-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+/* Toggle switch */
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 25px;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #ccc;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+input:checked + .slider {
+    background: #007bff;
+}
+
+input:checked + .slider::before {
+    transform: translateX(25px);
+}
+
+/* Mobile compatibility */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
+}

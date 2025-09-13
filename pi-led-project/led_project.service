@@ -1,0 +1,15 @@
+[Unit]
+Description=My Python Application Service
+After=network.target
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+Type=simple
+User=nathan
+WorkingDirectory=/home/nathan/Documents/pi-led-project
+ExecStart=/home/nathan/Documents/pi-led-project/venv/bin/python3 /home/nathan/Documents/pi-led-project/run_server.py
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

@@ -14,3 +14,44 @@ This can be downloaded on a new machine by creating a new virtual environment `p
 After installing the PiCamera dependencies via `sudo apt install -y python3-picamera2` and `sudo apt install -y libcap-dev` then run `python3 -m venv venv --system-site-packages`. This flag will allow the virtual environment to include packages found in the system's `site-packages` (where apt will install the Picamera code) if the dependency is not currently found within the virtual environment.
 
 Also need to run `./venv/bin/pip install --upgrade numpy opencv-python` for cv2 dependency to be comptaible with the new numpy2 dependency released in 2024
+
+
+## LED Project
+
+1. Need to download and install build tools
+
+``` bash
+sudo apt-get update
+sudo apt-get install -y \
+    git \
+    python3-dev \
+    python3-pillow \
+    python3-venv \
+    build-essential \
+    cmake \
+    libopenjp2-7 \
+    libtiff5
+```
+
+2. Clone and Build RGB LED Python matrix
+
+```
+cd ~
+git clone https://github.com/hzeller/rpi-rgb-led-matrix.git
+cd rpi-rgb-led-matrix
+make build-python PYTHON=$(which python3)
+```
+
+3. Install everything in a Python VENV
+
+```
+cd ~/rpi-rgb-led-matrix
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install pillow
+
+make install-python PYTHON=$(which python3)
+```
+
+4. Copy over the `/pi-led-project` directory to the desired machine. This folder contains all the source code needed to host a lightweight webserver for updating the board as well as a service file which can be copied into `/etc/systemd/system` and will allow it to function as a Linux systemd service which will be called upon boot everytime.
