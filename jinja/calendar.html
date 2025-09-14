@@ -1,0 +1,52 @@
+
+{% extends "base.html" %}
+
+{% block head_more %}
+    <!-- Pass through Jinja Data -->
+    <script>
+        var all_calendar_events = {{ all_calendar_events | tojson }};
+    </script>
+    <!-- Javascript -->
+    <script type="module" src="{{ url_for('static', filename='javascript/calendar.js') }}"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/calendar.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="calendar">
+    <header>
+        <button class="nav-btn" id="prevMonth">‹ Prev</button>
+        <h2 id="monthYear"></h2>
+        <button class="nav-btn" id="nextMonth">Next ›</button>
+    </header>
+    <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="eventModal">
+    <div class="modal-content">
+        <div class="model-header">
+            <h3 id="modalTitle">Add Event</h3>
+            <button id="cancel-item-btn"  class="btn btn-cancel">X</button>
+        </div>
+        <div id="eventForm">
+            <label>Date</label>
+            <input type="text" id="eventDate" name="eventDate" readonly>
+            
+            <label>Title</label>
+            <input type="text" id="eventTitle" name="eventTitle" required>
+            
+            <label>Description</label>
+            <textarea id="eventDesc" name="eventDesc" rows="3"></textarea>
+
+            <input type="hidden" name="eventId" id="eventId">
+            
+            <div class="modal-actions">
+                <button id="delete-item-btn"  class="btn btn-delete">Delete</button>
+                <button id="add-item-btn"     class="btn btn-save">Add</button>
+                <button id="update-item-btn"  class="btn btn-save">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

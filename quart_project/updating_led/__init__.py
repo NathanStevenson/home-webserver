@@ -65,7 +65,7 @@ async def update_message_form(data: schemas.UpdateLedScreen):
         # get the unique name of the pi requested
         led_device = await LED_Device.get_device_by_name(session, data.pi_name)
         led_device.message = data.message
-        led_device.text_wrap = data.wrapText
+        led_device.text_wrap = data.wrap_text
         led_device.color = hex_to_rgb(data.color)
         # store the new led info in the DB
         await LED_Device.edit(session, led_device)
@@ -74,7 +74,7 @@ async def update_message_form(data: schemas.UpdateLedScreen):
         payload = {
             'message': data.message,
             'color': hex_to_rgb(data.color),
-            'wrapText': data.wrapText
+            'wrap_text': data.wrap_text
         }
 
         resp = requests.post(url, json=payload)

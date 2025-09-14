@@ -1,11 +1,5 @@
 # Home Server
 
-## LED Screen
-- mainly done need to get one quart schema error fixed on remote pi then good 
-
-## Calendar
-- Get chat to design a calendar where each day can be clicked on to add new things to the db shows up on the date
-- Need to add a calendar events into the db (date, who reported, description) 
 - Add different colored logging and try and find a way to silence the DB logs
 
 ## To-Do Classes
@@ -13,7 +7,11 @@
 - have chat help design the frontend code
 - will need to add a ToDo class table into the DB
 
+## Page to Control LED View
+- Events on that day; clock; the messages
 
+## Customizable Colors on User Profile
+- Allow users to choose their own colors for backgrounds, events, etc -- store as a cookie and in db attached to user
 
 ## Perfecting Video Streaming
 1. Degrade to 15 FPS - this is serviceable - minimal delay not highest quality camera - try higher framerate + res once on Wireguard

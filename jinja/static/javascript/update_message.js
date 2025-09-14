@@ -14,7 +14,7 @@ function populateDeviceForm() {
             if (selectDevice.value == pi_info.name) {
                 const messageElem   = document.getElementById('message');
                 const colorElem     = document.getElementById('color');
-                const wrapText      = document.getElementById('wrapText');
+                const wrapText      = document.getElementById('wrap_text');
                 messageElem.value   = pi_info.message;
                 colorElem.value     = pi_info.color;
                 if (pi_info.text_wrap == true) {

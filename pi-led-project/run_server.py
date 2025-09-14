@@ -9,6 +9,8 @@ import led_utils
 import schemas
 
 app = Quart(__name__)
+app.config["QUART_SCHEMA_CONVERT_CASING"] = True
+app.config["QUART_SCHEMA_CONVERSION_PREFERENCE"] = "snake"
 
 # ======== CONFIG (unique per Pi) ========
 PI_NAME     = "nathan"                                          # change per device
@@ -21,7 +23,7 @@ CENTRAL_WS  = "http://192.168.8.21:8000/led/pi_info/" + PI_NAME # server URL to 
 @validate_request(schemas.UpdateLedScreen)
 async def update_led_screen(data: schemas.UpdateLedScreen):
     # led_utils.display_text(data.message, color=data.color, wrap=data.wrapText)
-    print(f"Displaying message to LED: {data.message} {data.color} {data.wrapText}")
+    print(f"Displaying message to LED: {data.message} {data.color} {data.wrap_text}")
     return jsonify( {"status": "updated_screen"} )
 
 if __name__ == "__main__":
