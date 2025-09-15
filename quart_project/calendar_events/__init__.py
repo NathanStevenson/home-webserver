@@ -16,11 +16,11 @@ bp = quart.Blueprint('calendar', __name__, url_prefix="/calendar")
 async def calendar():
     # get all of the calendar events to send to the frontend
     async with db_interface.create_session() as session:
-        all_calendar_events = await CalendarEvent.get_all(session)
+        all_calendar_events = await CalendarEvent.get_all_with_users(session)
         front_end_calendar_info = []
         # convert the DB values into Jinja compatible values
         for row in all_calendar_events:
-            row = row.to_dict()
+            row = row.to_dict(include_related={"user": ["cal_event_color"]})
             front_end_calendar_info.append(row)
 
         logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
@@ -32,7 +32,7 @@ async def calendar():
 @validate_request(schemas.CalendarEvent)
 async def add_event_form(data: schemas.CalendarEvent):
     async with db_interface.create_session() as session:
-        calendar_event = CalendarEvent(data.day, data.month, data.year, data.title, data.description)
+        calendar_event = CalendarEvent(data.day, data.month, data.year, data.title, data.description, int(current_user.auth_id))
         await CalendarEvent.add(session, calendar_event)
         # redirect user back to calendar page will now show the new event
         return quart.redirect(quart.url_for('calendar.calendar'))

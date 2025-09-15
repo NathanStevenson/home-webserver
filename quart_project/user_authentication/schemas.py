@@ -13,3 +13,7 @@ class ApplyChanges(BaseModel):
     username: str
     email: EmailStr
     phone_number: str
+
+class ColorChanges(BaseModel):
+    cal_event_color: str
+    todo_event_color: str

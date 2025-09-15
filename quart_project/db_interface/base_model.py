@@ -57,7 +57,7 @@ class BaseModel(Base):
         await session.commit()
 
     # converts the class to a dictionary so it can be easily returned by Quart
-    def to_dict(self):
+    def to_dict(self, include_related=None):
         result = {}
         for key, value in vars(self).items():
             # skip private attributes
@@ -66,6 +66,12 @@ class BaseModel(Base):
             # convert datetime attributes to iso so they are json serializable
             if isinstance(value, datetime):
                 result[key] = value.isoformat()
+            # serialize relationships w foreign keys
+            elif include_related and key in include_related and value is not None:
+                rel_fields = include_related[key]
+                result[key] = {
+                    field: getattr(value, field, None) for field in rel_fields
+                }
             # otherwise just simply append
             else:
                 result[key] = value

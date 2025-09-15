@@ -70,6 +70,22 @@ async def apply_changes(data: schemas.ApplyChanges):
         logged_in_user_info.username = data.username
         await User.edit(session, logged_in_user_info)
         return redirect(url_for('authentication.profile'))
+    
+# receives POST request from the user asking to change their colors for their events
+@bp.post("color_changes")
+@login_required
+@validate_request(schemas.ColorChanges)
+async def color_changes(data: schemas.ColorChanges):
+    async with db_interface.create_session() as session:
+        # check if the user exists
+        logged_in_user_info = await User.get_by_id(session, int(current_user.auth_id))
+        
+        # if makes it here then a valid change
+        logged_in_user_info.cal_event_color = data.cal_event_color
+        logged_in_user_info.todo_event_color = data.todo_event_color
+
+        await User.edit(session, logged_in_user_info)
+        return redirect(url_for('authentication.profile'))
 
 # serve the login form
 @bp.get("login")

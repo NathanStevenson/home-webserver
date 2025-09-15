@@ -46,6 +46,9 @@ async def process_add_led(name, ip_address):
 #
 # LED:
 # ./venv/bin/python3 add_item.py led <name> <ip>                    --> adds new led device to the db
+#
+# Calendar Event:
+# ./venv/bin/python3 add_item.py cal_event <name> <ip>                    --> adds new led device to the db
 
 if __name__ == "__main__":
     if sys.argv[1] == 'user':

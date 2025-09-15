@@ -19,6 +19,12 @@ async function onApplyChangesForm(event, endpoint) {
     return await onFormSubmit(event, endpoint);
 }
 
+// submits the color changing form request
+async function onColorChangesForm(event, endpoint) {
+    event.preventDefault();
+    return await onFormSubmit(event, endpoint);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // when the DOM loads - read the dark/light mode cookie to see how to display
     document.getElementById("darkToggle").addEventListener('click', toggleDarkMode);
@@ -33,14 +39,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         }); 
     }
-    // depending on light/dark mode have the toggle class correct
-    const body = document.getElementsByTagName('body')[0];
-    const darkModeToggle = document.getElementById('darkToggle');
-    const theme = localStorage.getItem('theme');
-    if (theme == "dark") { 
-        darkModeToggle.checked = true;
-    }
-    else {
-        darkModeToggle.checked = false;
+    if (document.getElementById("change-color-form")) { document.getElementById("change-color-form").addEventListener('submit', async(event) => { await onColorChangesForm(event, "/color_changes"); });
+
+        // depending on light/dark mode have the toggle class correct
+        const darkModeToggle = document.getElementById('darkToggle');
+        const theme = localStorage.getItem('theme');
+        if (theme == "dark") { 
+            darkModeToggle.checked = true;
+        }
+        else {
+            darkModeToggle.checked = false;
+        }
     }
 });

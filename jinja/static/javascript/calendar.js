@@ -55,6 +55,7 @@ function generateCalendar(year, month) {
                 const evDiv = document.createElement("div");
                 evDiv.className = "event";
                 evDiv.textContent = ev.title;
+                evDiv.style.backgroundColor = ev.color;
                 evDiv.onclick = (e) => {
                     e.stopPropagation();
                     openModal(dateKey, ev);
@@ -166,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // if events[key] is not initialized then need to set it to an empty array
         if (!events[event_key]) { events[event_key] = []; }
         // color is dynamic users can change their color for the event and it will be reflected across all calendars 
-        events[event_key].push({"id": event.id, "title": event.title, "description": event.description, "color": event.color});
+        events[event_key].push({"id": event.id, "title": event.title, "description": event.description, "color": event.user.cal_event_color});
     }
 
     // Initial render based on the current year and month

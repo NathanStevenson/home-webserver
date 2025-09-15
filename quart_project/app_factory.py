@@ -10,6 +10,11 @@ from quart_project import video_streaming
 from quart_project import updating_led
 from quart_project import calendar_events
 from pydantic import ValidationError
+from sqlalchemy.orm import configure_mappers, relationship
+
+# import all the db classes before configure_mappers so no weird linking behavior
+from quart_project.db_interface.user_model import User
+from quart_project.db_interface.calendar_event_model import CalendarEvent
 
 # returns a fully configured Quart application
 def create_app(webweaver_config=None):
@@ -36,6 +41,10 @@ def create_app(webweaver_config=None):
     # Before serving the webserver: initialize the database connection; if the project has one
     @app.before_serving
     async def before_serving():
+        # init all the relationships between tables here
+        User.events = relationship("CalendarEvent", back_populates="user", cascade="all, delete-orphan")
+        CalendarEvent.user = relationship("User", back_populates="events")
+        
         await db_interface.init_db()
         # camera[id] -> { user[id] -> websocket queue }
         app.camera_websocket_conns = {}

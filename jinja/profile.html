@@ -54,5 +54,21 @@
             <span>Reset Password</span>
             <a href="/reset_password" class="btn-primary">Reset Password</a>
         </div>
+
+        <div class="settings-section">
+        <h3>Color Picker</h3>
+
+        <form style="display: flex; flex-direction: column" id="change-color-form">
+            <div class="form-group">
+                <label for="cal_event_color">Calendar Event Color</label>
+                <input type="color" id="cal_event_color" name="cal_event_color" value="{{ logged_in_user_info.cal_event_color }}">
+            </div>
+            <div class="form-group">
+                <label for="todo_event_color">To-Do Event Color</label>
+                <input type="color" id="todo_event_color" name="todo_event_color" value="{{ logged_in_user_info.todo_event_color }}">
+            </div>
+
+            <button type="submit" class="btn-primary" style="align-self: center;">Change Colors</button>
+        </form>
     </div>
 {% endblock %}
