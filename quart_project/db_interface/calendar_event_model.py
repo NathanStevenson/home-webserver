@@ -15,6 +15,8 @@ class CalendarEvent(BaseModel):
         self.user_id = user_id
     
     # mapped column is preferred over column in modern sql alchemy due to typing
+    minute:            Mapped[str] = mapped_column()
+    hour:            Mapped[str] = mapped_column()
     day:            Mapped[str] = mapped_column()
     month:          Mapped[str] = mapped_column()
     year:           Mapped[str] = mapped_column()
@@ -28,4 +30,10 @@ class CalendarEvent(BaseModel):
     @classmethod
     async def get_all_with_users(cls, session):
         result = await session.execute(select(cls).options(selectinload(cls.user)))
+        return result.scalars().all()
+    
+    # get all the events + corresponding user for a given day/month/year
+    @classmethod
+    async def get_al_events_for_day(cls, session, day, month, year):
+        result = await session.execute(select(cls).options(selectinload(cls.user)).filter_by(day=day, month=month, year=year))
         return result.scalars().all()

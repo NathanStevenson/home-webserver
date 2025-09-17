@@ -6,3 +6,4 @@ pydantic
 quart_schema
 requests
 json
+pytz

@@ -1,8 +1,10 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import time
 
+# add a title field fixed to the top (used for calendar, weather, etc to show the date)
 def display_text(
     text: str,
+    title: None,
     color=(255, 0, 0),
     scroll: bool = False,
     wrap: bool = False,
@@ -26,7 +28,7 @@ def display_text(
     options.cols = 64
     options.chain_length = 1
     options.parallel = 1
-    options.hardware_mapping = "regular"  # Adjust if different HAT/Bonnet
+    options.hardware_mapping = "led_gpio_mapping"  # Adjust if different HAT/Bonnet; may just remove once we have LED; think i did not need chainlength/parallel either
     matrix = RGBMatrix(options=options)
 
     # Load font
@@ -47,18 +49,45 @@ def display_text(
             offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
             time.sleep(0.05)  # Scroll speed
     else:
-        lines = [text]
-        if wrap:
-            max_chars = 15  # Rough estimate for 64px wide panel
-            lines = [text[i:i+max_chars] for i in range(0, len(text), max_chars)]
-
-        offscreen_canvas.Clear()
-        y = 15
-        for line in lines[:2]:  # Only 2 lines fit on 32px height
-            graphics.DrawText(offscreen_canvas, font, 2, y, text_color, line)
+        # if there is a title first line is title next line is text for (weather, calendar event, clock)
+        if title:
+            offscreen_canvas.Clear()
+            y = 15
+            # Only 2 lines fit on 32px height - title is always white
+            graphics.DrawText(offscreen_canvas, font, 2, y, graphics.Color(255, 255, 255), title)
             y += 15
-        offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
-        time.sleep(duration)
+            graphics.DrawText(offscreen_canvas, font, 2, y, text_color, text)
+
+            offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
+            time.sleep(duration)
+
+        else:
+            lines = [text]
+            if wrap:
+                max_chars = 15  # Rough estimate for 64px wide panel
+                lines = [text[i:i+max_chars] for i in range(0, len(text), max_chars)]
+
+            offscreen_canvas.Clear()
+            y = 15
+            for line in lines[:2]:  # Only 2 lines fit on 32px height
+                graphics.DrawText(offscreen_canvas, font, 2, y, text_color, line)
+                y += 15
+            offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
+            time.sleep(duration)
+
+# clears the canvas of the LED screen
+def clear_canvas():
+    # Configure LED matrix
+    options = RGBMatrixOptions()
+    options.rows = 32
+    options.cols = 64
+    options.chain_length = 1
+    options.parallel = 1
+    options.hardware_mapping = "led_gpio_mapping"  # Adjust if different HAT/Bonnet
+    matrix = RGBMatrix(options=options)
+
+    offscreen_canvas = matrix.CreateFrameCanvas()
+    offscreen_canvas.Clear()
 
 if __name__ == "__main__":
     # Example usage

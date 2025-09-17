@@ -37,7 +37,7 @@ async def pi_info(pi_name: str):
     async with db_interface.create_session() as session:
         pi_info = await LED_Device.get_device_by_name(session, pi_name)
         if pi_info:
-            return { "pi_message": pi_info.message, "pi_color": pi_info.color, "pi_wrap": pi_info.text_wrap }
+            return { "pi_message": pi_info.message, "pi_color": pi_info.color, "pi_wrap": pi_info.text_wrap, "pi_display_type": pi_info.display_type }
 
 # Route which returns the html form needed to update the message, color, wrap, and who to send to fields
 @bp.get("update_message")
@@ -70,7 +70,7 @@ async def update_message_form(data: schemas.UpdateLedScreen):
         # store the new led info in the DB
         await LED_Device.edit(session, led_device)
         # submit request to the LED Device webserver to update the message instantly
-        url = f"http://{led_device.ip_address}:{led_device.port}/update_led_screen"
+        url = f"http://{led_device.ip_address}:{led_device.port}/update_message"
         payload = {
             'message': data.message,
             'color': hex_to_rgb(data.color),
