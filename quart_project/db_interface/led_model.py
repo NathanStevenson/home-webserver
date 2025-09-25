@@ -7,7 +7,7 @@ class LED_Device(BaseModel):
     __tablename__ = "leds"
 
     # default constructor (name, ip_address, message, color, text_wrap, port)
-    def __init__(self, name, ip_address, message="Hello World", color="(0, 0, 255)", text_wrap=True, port="8000", display_type="message"):
+    def __init__(self, name, ip_address, message="Hello World", color="(0, 0, 255)", text_wrap=True, port="8000", display_type="clock"):
         self.name = name
         self.ip_address = ip_address
         self.message = message
@@ -30,3 +30,9 @@ class LED_Device(BaseModel):
     async def get_device_by_name(cls, session: AsyncSession, name: str):
         result = await session.execute(select(cls).filter_by(name=name))
         return result.scalars().first()
+    
+    # gets all calendar LEDs
+    @classmethod
+    async def get_all_calendar_devices(cls, session: AsyncSession):
+        result = await session.execute(select(cls).filter_by(display_type="calendar"))
+        return result.scalars().all()

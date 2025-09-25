@@ -6,6 +6,15 @@ async function onUpdateMessage(event, endpoint) {
     return await onFormSubmit(event, endpoint);
 }
 
+const inputMessage = document.getElementById('message');
+const charCountSpan = document.getElementById('charCount');
+const maxLength = inputMessage.getAttribute('maxlength');
+
+inputMessage.addEventListener('input', () => {
+    const currentLength = inputMessage.value.length;
+    charCountSpan.textContent = `${currentLength}/${maxLength}`;
+});
+
 // populate the device form based on the device selected
 function populateDeviceForm() {
     const selectDevice = document.getElementById('pi_name');
@@ -31,6 +40,10 @@ function populateDeviceForm() {
 document.addEventListener("DOMContentLoaded", () => {
     // on DOM load see which device is selected and load that device info
     populateDeviceForm();
+
+    // populate the span text after form populated
+    const length = inputMessage.value.length;
+    charCountSpan.textContent = `${length}/${maxLength}`;
 
     // when the value of the select box changes also populate the form
     if (document.getElementById('pi_name')) { document.getElementById('pi_name').addEventListener('change', () => populateDeviceForm()); }

@@ -79,11 +79,7 @@ h2 {
 
 .service-links {
     /* control the border and spacing of service blocks */
-    border: 3px solid rgba(40, 40, 40, 10);
-    padding: 30px;
-    border-radius: 15px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
     /* ensure there is a max of 3 services per line */
     flex: 0 0 calc(33.333% - 10%);
     /* ensure all the services have the same height and min width (otherwise would shrink based on service size looks weird) */
@@ -92,15 +88,28 @@ h2 {
     /* ensure text of all services is centered horizontally + vertically */
     font-size: larger;
     font-weight: bold;
-    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     /* style text accordingly */
     text-decoration: none;
     color: white;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 1px solid #e0e0e0;
 }
 
+.service-links:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      cursor: pointer;
+}
 
 /* Header NAV Bar styling */
 #header{

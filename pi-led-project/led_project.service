@@ -5,9 +5,9 @@ After=network.target
 [Service]
 Environment=PYTHONUNBUFFERED=1
 Type=simple
-User=nathan
+User=root
 WorkingDirectory=/home/nathan/Documents/pi-led-project
-ExecStart=/home/nathan/Documents/pi-led-project/venv/bin/python3 /home/nathan/Documents/pi-led-project/run_server.py
+ExecStart=sudo /home/nathan/Documents/pi-led-project/venv/bin/uvicorn run_server:app --host 0.0.0.0 --port 8000 --timeout-graceful-shutdown=3
 Restart=on-failure
 RestartSec=5s
 

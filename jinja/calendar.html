@@ -32,9 +32,13 @@
         <div id="eventForm">
             <label>Date</label>
             <input type="text" id="eventDate" name="eventDate" readonly>
+
+            <label>Time</label>
+            <input type="time" id="eventTime" name="eventTime" required>
             
             <label>Title</label>
-            <input type="text" id="eventTitle" name="eventTitle" required>
+            <input type="text" id="eventTitle" name="eventTitle" maxlength="12" required>
+            <span id="charCount">0/12</span>
             
             <label>Description</label>
             <textarea id="eventDesc" name="eventDesc" rows="3"></textarea>

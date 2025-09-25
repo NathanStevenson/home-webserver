@@ -1,19 +1,10 @@
 # Home Server
 
-
-## Page to Control LED View
-- Add hour/minute to the calendar date form
-- Have the calendar date form also hit the Update_Message thing with all the new calendar events for current day
-- Make old update message compatible with the new update message (LED Message Form)
-- Make a LED control display form which can toggle between message, weather, clock, calender - will save immediately to server; attempt to hit update message on pi
-- Test everything should be able to fluidly swap between all 4 components and have it change display type and forward along extra info when changing to calendar/message types
-
-- once LED board and shit comes in set this all up and see if it works - software will be working led_utils may need some tweaking + font changes
-
-
-- fix calendar on small screen 
-- Add different colored logging and try and find a way to silence the DB logs
-- Add recipes to the website (extra easy thing)
+FUTURE
+- Add different colored logging and try and find a way to silence the DB logs - 10 min
+- Change the wrap flag to a scroll flag (text should always wrap to display properly -- add the flag to scroll - would be cool if title stayed put and rest of text scrolled)
+- link LED to User pairing instead of name do it like with Calendar Event where we foreign key it (so users can change their username) - 30 min
+- Add recipes to the website (extra easy thing) - FRI CHILL / DO SUNDAY
 
 
 ## Perfecting Video Streaming

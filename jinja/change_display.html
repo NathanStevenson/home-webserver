@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block head_more %}
+    <!-- Javascript -->
+    <script type="module" src="{{ url_for('static', filename='javascript/change_display.js') }}"></script>
+    <!-- CSS (has same style as update_message)-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/update_message.css') }}"> 
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>Change LED Display</h2>
+
+        {% if your_led_device %}
+        <form style="display: flex; flex-direction: column" id="change-led-display-form">
+            <!-- hidden input for the name of the pi being editted for the backend -->
+            <input type="hidden" name="pi_name" value="{{ your_led_device.name }}">
+
+            <div class="form-group">
+                <label for="display_type">Display Type</label>
+                <select id="display_type" name="display_type">
+                    <option value="message"  {% if your_led_device.display_type == "message"  %}selected="selected"{% endif %}>Message</option>
+                    <option value="clock"    {% if your_led_device.display_type == "clock"    %}selected="selected"{% endif %}>Clock</option>
+                    <option value="weather"  {% if your_led_device.display_type == "weather"  %}selected="selected"{% endif %}>Weather</option>
+                    <option value="calendar" {% if your_led_device.display_type == "calendar" %}selected="selected"{% endif %}>Calendar Events</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="color">Color</label>
+                <input type="color" id="color" name="color" value="{{ your_led_device.color }}">
+            </div>
+
+            <div class="enable-wrap">
+                <span>Enable Text Wrap</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="wrap_text" name="wrap_text" value="{{ your_led_device.text_wrap }}">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <button type="submit" class="btn-primary" style="align-self: center;">Change Display</button>
+        </form>
+        {% else %}
+        <h3 id="no-led-device-for-user">User does not have LED Device registered to them</h3>
+        {% endif %}
+    </div>
+{% endblock %}

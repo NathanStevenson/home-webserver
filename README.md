@@ -18,6 +18,8 @@ Also need to run `./venv/bin/pip install --upgrade numpy opencv-python` for cv2 
 
 ## LED Project
 
+`sudo rmmod snd_bcm2835` this is needed to get the pi zero working on boot
+
 1. Need to download and install build tools
 
 ``` bash
@@ -49,9 +51,17 @@ cd ~/rpi-rgb-led-matrix
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install pillow
 
 make install-python PYTHON=$(which python3)
 ```
 
 4. Copy over the `/pi-led-project` directory to the desired machine. This folder contains all the source code needed to host a lightweight webserver for updating the board as well as a service file which can be copied into `/etc/systemd/system` and will allow it to function as a Linux systemd service which will be called upon boot everytime.
+
+5. Certifi certs DO NOT work on RPi-Zero 32 bit need to install and use our own certificates in order to perform requests to a HTTPS website. If below does not work can set verify=False but this is not reccommended
+
+```
+sudo apt install ca-certificates
+sudo update-ca-certificates
+
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+```

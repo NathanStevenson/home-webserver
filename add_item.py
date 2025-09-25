@@ -45,10 +45,10 @@ async def process_add_led(name, ip_address):
 # ./venv/bin/python3 add_item.py camera <location> <ip>             --> adds new camera to the db
 #
 # LED:
-# ./venv/bin/python3 add_item.py led <name> <ip>                    --> adds new led device to the db
+# ./venv/bin/python3 add_item.py led <name> <ip>                    --> adds new led device to the db (name must be assoc with username for a user)
 #
 # Calendar Event:
-# ./venv/bin/python3 add_item.py cal_event <name> <ip>                    --> adds new led device to the db
+# ./venv/bin/python3 add_item.py cal_event <name> <ip>              --> adds new led device to the db
 
 if __name__ == "__main__":
     if sys.argv[1] == 'user':

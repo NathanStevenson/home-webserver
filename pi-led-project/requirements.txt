@@ -1,9 +1,3 @@
-pillow
 quart
-asyncio
-uvicorn
-pydantic
-quart_schema
+uvicorn[standard]
 requests
-json
-pytz

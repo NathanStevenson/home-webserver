@@ -1,14 +1,23 @@
 import { makeRequest } from './index.js';
 
-const calendarGrid = document.getElementById("calendarGrid");
-const monthYear = document.getElementById("monthYear");
-const modal = document.getElementById("eventModal");
-const eventDateInput = document.getElementById("eventDate");
-const eventTitleInput = document.getElementById("eventTitle");
-const eventDescInput = document.getElementById("eventDesc");
-const eventIdInput = document.getElementById("eventId");
-const eventForm = document.getElementById("eventForm");
-const modalTitle = document.getElementById("modalTitle");
+const calendarGrid          = document.getElementById("calendarGrid");
+const monthYear             = document.getElementById("monthYear");
+const modal                 = document.getElementById("eventModal");
+const eventDateInput        = document.getElementById("eventDate");
+const eventTitleInput       = document.getElementById("eventTitle");
+const eventTimeInput        = document.getElementById("eventTime");
+const eventDescInput        = document.getElementById("eventDesc");
+const eventIdInput          = document.getElementById("eventId");
+const modalTitle            = document.getElementById("modalTitle");
+
+const inputTitle = document.getElementById('eventTitle');
+const charCountSpan = document.getElementById('charCount');
+const maxLength = inputTitle.getAttribute('maxlength');
+
+inputTitle.addEventListener('input', () => {
+    const currentLength = inputTitle.value.length;
+    charCountSpan.textContent = `${currentLength}/${maxLength}`;
+});
 
 let events = {}; // store events as { "YYYY-M-D": [{id, title, description, color}] }
 let selectedDate = "";
@@ -77,10 +86,15 @@ function openModal(dateKey, event=null) {
 
     // if event already exists have the update event modal shown + correct callback attached
     if (event) {
+        // update model
         modalTitle.textContent = "Update Event";
+        eventTimeInput.value = event.hour + ":" + event.minute;
         eventTitleInput.value = event.title;
         eventDescInput.value = event.description;
         eventIdInput.value = event.id;
+        // update the text count correctly
+        const length = inputTitle.value.length;
+        charCountSpan.textContent = `${length}/${maxLength}`;
         // style buttons accordingly
         document.getElementById("add-item-btn").style.display       = "none";
         document.getElementById("delete-item-btn").style.display    = "inline-block";
@@ -93,6 +107,7 @@ function openModal(dateKey, event=null) {
     // if event does not already exist then add it 
     } else {
         modalTitle.textContent = "Add Event";
+        eventTimeInput.value = "";
         eventTitleInput.value = "";
         eventDescInput.value = "";
         eventIdInput.value = "";
@@ -117,9 +132,12 @@ async function addOrUpdateCalendarEvent(request_method) {
     const args = {};
     // "YYYY-M-D"
     const splitDate = selectedDate.split("-", 3);
+    const splitTime = eventTimeInput.value.trim().split(":");
     args.year           = splitDate[0];
     args.month          = splitDate[1];
     args.day            = splitDate[2];
+    args.hour           = splitTime[0];
+    args.minute         = splitTime[1];
     args.title          = eventTitleInput.value.trim();
     args.description    = eventDescInput.value.trim();
     args.id             = parseInt(eventIdInput.value.trim()); 
@@ -167,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // if events[key] is not initialized then need to set it to an empty array
         if (!events[event_key]) { events[event_key] = []; }
         // color is dynamic users can change their color for the event and it will be reflected across all calendars 
-        events[event_key].push({"id": event.id, "title": event.title, "description": event.description, "color": event.user.cal_event_color});
+        events[event_key].push({"id": event.id, "title": event.title, "description": event.description, "color": event.user.cal_event_color, "hour": event.hour, "minute": event.minute});
     }
 
     // Initial render based on the current year and month
