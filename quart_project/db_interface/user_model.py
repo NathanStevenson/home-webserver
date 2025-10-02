@@ -7,7 +7,7 @@ class User(BaseModel):
     __tablename__ = "users"
 
     # default constructor (email, password, username)
-    def __init__(self, email, hashed_password, username, phone_number="XXX-XXX-XXXX", user_profile_path="default_profile.png", cal_event_color="#4f46e5", todo_event_color="#4f46e5"):
+    def __init__(self, email, hashed_password, username, phone_number="XXX-XXX-YYYY", user_profile_path="default_profile.png", cal_event_color="#4f46e5", todo_event_color="#4f46e5"):
         self.email = email
         self.hashed_password = hashed_password
         self.username = username
@@ -21,7 +21,7 @@ class User(BaseModel):
 
     username:           Mapped[str] = mapped_column(unique=True)
     email:              Mapped[str] = mapped_column(unique=True)
-    phone_number:       Mapped[str] = mapped_column(unique=True)
+    phone_number:       Mapped[str] = mapped_column()
     hashed_password:    Mapped[str] = mapped_column()
     user_profile_path:  Mapped[str] = mapped_column()
     cal_event_color:    Mapped[str] = mapped_column()

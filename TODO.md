@@ -4,6 +4,7 @@ FUTURE
 - Add different colored logging and try and find a way to silence the DB logs - 10 min
 - Change the wrap flag to a scroll flag (text should always wrap to display properly -- add the flag to scroll - would be cool if title stayed put and rest of text scrolled)
 - link LED to User pairing instead of name do it like with Calendar Event where we foreign key it (so users can change their username) - 30 min
+- turn LED off clear canvas choice
 - Add recipes to the website (extra easy thing) - FRI CHILL / DO SUNDAY
 
 
